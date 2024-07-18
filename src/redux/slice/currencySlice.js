@@ -11,6 +11,8 @@ const currencySlice = createSlice({
     setCurrency: (state, action) => {
       if (action.payload == null || action.payload == "") {
         state.currency = "inr";
+      } else if (action.payload != "inr" && action.payload != "usd") {
+        state.currency = "inr";
       } else {
         state.currency = action.payload;
       }

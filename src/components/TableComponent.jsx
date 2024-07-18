@@ -1,12 +1,14 @@
 "use client";
 import { useSelector } from "react-redux";
 import { IoIosAddCircle } from "react-icons/io";
+import Pagination from "./Pagination";
 
 const TableComponent = () => {
     let currentCurrency = useSelector((state) => state.currency.currency)
     let cryptoData = useSelector((state) => state.data.coinsMarket.data);
 
   return (
+    <>
     <div className="flex flex-col mt-5 border border-gray-600 rounded">
         {cryptoData ? <table className="w-full table-auto">
             <thead className="capitalize text-base text-gray-700 font-medium border-b border-gray-700">
@@ -47,6 +49,12 @@ const TableComponent = () => {
         </table>: <div className="flex items-center justify-center text-center mt-2 mb-2"><h2>Fetching Data...</h2></div>}
         
     </div>
+    {/*Pagination */}
+    <div className="flex items-center justify-between mt-4 capitalize h-[2rem]">
+        <span/>
+        <Pagination/>
+    </div>
+    </>
   )
 }
 
