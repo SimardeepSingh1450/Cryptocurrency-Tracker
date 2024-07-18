@@ -8,13 +8,13 @@ import { useSelector } from "react-redux";
 import { fetchCoinsMarket } from "@/redux/slice/dataSlice";
 import { setSortBy } from "@/redux/slice/sortBySlice";
 import { IoMdRefreshCircle } from "react-icons/io";
+import { setCurrPage } from "@/redux/slice/currPageSlice";
 
-const Filters = () => {
-  //prop drilling to Search.jsx
-  const [coinID,setCoinID] = useState(null);
+const Filters = ({coinID,setCoinID}) => {
   const dispatch = useDispatch();
   const currencyRef = useRef(null);
   let currentCurrency = useSelector((state) => state.currency.currency)
+  let currentSortVal = useSelector((state) => state.sortBy.sortBy);
 
   const handleCurrencySubmit = (e) => {
     e.preventDefault();
@@ -36,8 +36,11 @@ const Filters = () => {
       dispatch(fetchCoinsMarket(coinID));
   }
 
-  const refreshCoinsMarket = (e) => {
-      dispatch(fetchCoinsMarket(coinID));
+  const handleReset = () =>{
+    dispatch(setCurrPage(1));
+    setCoinID(null);
+    dispatch(setSortBy(""));
+    dispatch(fetchCoinsMarket());
   }
 
   return (
@@ -54,7 +57,7 @@ const Filters = () => {
       </div>
       <label className="relative flex items-center justify-center">
         <span className="font-bold mr-2">Sort by : </span>
-          <select onClick={handleSort} name="sortby" className="rounded bg-gray-700 text-base pl-2 pr-10 mr-2 py-1 leading-4 capitalize focus:outline-0">
+          <select onChange={handleSort} name="sortby" className="rounded bg-gray-700 text-base pl-2 pr-10 mr-2 py-1 leading-4 capitalize focus:outline-0" value={currentSortVal}>
           <option value="market_cap_desc">market cap desc</option>
             <option value="market_cap_asc">market cap asc</option>
             <option value="volume_desc">volume desc</option>
@@ -62,8 +65,13 @@ const Filters = () => {
             <option value="id_desc">id desc</option>
             <option value="id_asc">id asc</option>
           </select>
-          <IoMdRefreshCircle className="cursor-pointer text-2xl mr-2 text-green-500" onClick={()=>{refreshCoinsMarket()}}/>
       </label>
+      <div onClick={()=>handleReset()} className="flex items-center justify-center cursor-pointer border border-green-500 rounded pr-4 mr-2 bg-green-500">
+      <IoMdRefreshCircle className="text-2xl mr-2 text-black"/>
+      <button className="w-[2rem] capitalize text-black">
+      reset
+      </button>
+      </div>
     </div>
   )
 }

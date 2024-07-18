@@ -6,6 +6,7 @@ export const fetchCoinsMarket = createAsyncThunk(
     const state = getState();
     const currentCurrency = state.currency.currency;
     const currentSortBy = state.sortBy.sortBy;
+    const currPage = state.currPage.currPage;
 
     const options = {
       method: "GET",
@@ -17,12 +18,12 @@ export const fetchCoinsMarket = createAsyncThunk(
     let response;
     if (coinID != null) {
       response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currentCurrency}&ids=${coinID}&order=${currentSortBy}&per_page=20&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d&locale=en&precision=2`,
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currentCurrency}&ids=${coinID}&order=${currentSortBy}&per_page=20&page=${currPage}&sparkline=false&price_change_percentage=1h%2C24h%2C7d&locale=en&precision=2`,
         options
       );
     } else {
       response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currentCurrency}&order=${currentSortBy}&per_page=20&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d&locale=en&precision=2`,
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currentCurrency}&order=${currentSortBy}&per_page=20&page=${currPage}&sparkline=false&price_change_percentage=1h%2C24h%2C7d&locale=en&precision=2`,
         options
       );
     }

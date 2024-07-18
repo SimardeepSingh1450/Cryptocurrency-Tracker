@@ -39,18 +39,21 @@ const Search = ({setCoinID}) => {
         input.length > 0 ? 
             <ul className="absolute top-11 right-0 w-96 h-96 rounded overflow-x-hidden py-2 bg-grey-600 bg-opacity-60 backdrop-blur-md">
                 {
-                    coinsData != null ? coinsData.map((item)=>{
+                    coinSearchData.isLoading ? 
+                    <div className="w-full h-full flex justify-center items-center">
+                    <div className="w-8 h-8 border-4 border-green-500 rounded-full border-b-gray-700 animate-spin"/>
+                    <span className="ml-2">Fetching Data...</span>
+                    </div>
+                    :
+                    coinsData ? coinsData.map((item)=>{
                         return (
                         <li onClick={()=>{handleListClick(item)}} className="flex items-center ml-4 my-2 cursor-pointer">
                             <img className="w-[1rem] h-[1rem] mx-2" src={item.thumb} alt={item.name}/>
                         <span>{item.name}</span>
                         </li>);
-                    }) : coinSearchData.isLoading == true ? (<div className="w-full h-full flex justify-center items-center">
-                    <div className="w-8 h-8 border-4 border-green-500 rounded-full border-b-gray-700 animate-spin"/>
-                    <span className="ml-2">Fetching results...</span>
-                </div>) : (<div className="w-full h-full flex justify-center items-center">
-                        <span>Click on Search Button</span>
-                    </div>)
+                    }) : (<div className="w-full h-full flex justify-center items-center">
+                    <span className="ml-2">Search data</span>
+                </div>)
                 }
             </ul>
         : null

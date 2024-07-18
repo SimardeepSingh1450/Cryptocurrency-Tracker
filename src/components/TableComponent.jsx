@@ -3,9 +3,10 @@ import { useSelector } from "react-redux";
 import { IoIosAddCircle } from "react-icons/io";
 import Pagination from "./Pagination";
 
-const TableComponent = () => {
+const TableComponent = ({coinID}) => {
     let currentCurrency = useSelector((state) => state.currency.currency)
     let cryptoData = useSelector((state) => state.data.coinsMarket.data);
+    let dataisLoading = useSelector((state) => state.data.coinsMarket.isLoading);
 
   return (
     <>
@@ -24,7 +25,8 @@ const TableComponent = () => {
                 </tr>
             </thead>
             <tbody>
-                {cryptoData.map((item)=>{
+                {
+                !dataisLoading ? cryptoData.map((item)=>{
                     return (
                         <tr className="text-center text-base border-b border-gray-700 hover:bg-gray-600 last:border-b-0">
                     
@@ -44,15 +46,22 @@ const TableComponent = () => {
                     <td className={`py-4 ${item.price_change_percentage_7d_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_7d_in_currency).toFixed(2)}</td>
                 </tr>
                     )
-                })}
+                }) : null}
             </tbody>
-        </table>: <div className="flex items-center justify-center text-center mt-2 mb-2"><h2>Fetching Data...</h2></div>}
-        
+        </table>: <div className="flex items-center justify-center text-center mt-2 mb-2">
+            <h2>Fetching Data...</h2>
+            </div>}
+        {/*LoadingData... */}
+        {
+            dataisLoading ?  <div className="flex items-center justify-center text-center mx-auto mt-2 mb-2">
+                <div className="w-8 h-8 border-4 border-green-500 rounded-full border-b-gray-700 animate-spin mr-5"/>
+                <h2>Loading Data...</h2></div> : null
+        }
     </div>
     {/*Pagination */}
     <div className="flex items-center justify-between mt-4 capitalize h-[2rem]">
         <span/>
-        <Pagination/>
+        <Pagination coinID={coinID}/>
     </div>
     </>
   )
