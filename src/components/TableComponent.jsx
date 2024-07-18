@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { IoIosAddCircle } from "react-icons/io";
 
 const TableComponent = () => {
+    let currentCurrency = useSelector((state) => state.currency.currency)
     let cryptoData = useSelector((state) => state.data.coinsMarket.data);
 
   return (
@@ -33,7 +34,7 @@ const TableComponent = () => {
                         </div>
                     </td>
                     <td className="py-4">{item.name}</td>
-                    <td className="py-4">{new Intl.NumberFormat("en-IN",{style:"currency",currency:"inr"}).format(item.current_price)}</td>
+                    <td className="py-4">{new Intl.NumberFormat("en-IN",{style:"currency",currency:currentCurrency}).format(item.current_price)}</td>
                     <td className="py-4">{item.total_volume}</td>
                     <td className="py-4">{item.market_cap_change_percentage_24h}%</td>
                     <td className={`py-4 ${item.price_change_percentage_1h_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_1h_in_currency).toFixed(2)}</td>
@@ -43,7 +44,7 @@ const TableComponent = () => {
                     )
                 })}
             </tbody>
-        </table>: null}
+        </table>: <div className="flex items-center justify-center text-center mt-2 mb-2"><h2>Fetching Data...</h2></div>}
         
     </div>
   )

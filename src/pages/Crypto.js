@@ -1,13 +1,12 @@
 "use client";
 import TableComponent from "@/components/TableComponent";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchCoinsMarket } from "@/redux/slice/dataSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Filters from "@/components/Filters";
 
 const Crypto = () => {
   const dispatch = useDispatch();
-  const coinsMarket = useSelector((state) => state.data.coinsMarket.data);
-  console.log(coinsMarket);
 
   // if (state.todo.isLoading) {
   //   return <h1>Loading...</h1>;
@@ -19,6 +18,7 @@ const Crypto = () => {
 
   return (
     <section className="w-[80%] h-full flex flex-col mt-16 mb-24 relative">
+      <Filters />
       <TableComponent />
     </section>
   );
