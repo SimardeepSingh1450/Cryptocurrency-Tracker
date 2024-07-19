@@ -7,9 +7,15 @@ import { useState } from "react";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import Footer from "@/components/Footer";
+import CryptoDetails from "@/components/CryptoDetails";
+import HoldingsDetails from "@/components/HoldingsDetails";
 
 export default function Home() {
   const [currComp, setCurrComp] = useState("/");
+  const [coinID, setCoinID] = useState(null);
+  const [openModel, setOpenModel] = useState(false);
+  const [holdingsModel, setHoldingsModel] = useState(false);
+
   return (
     <Provider store={store}>
       <div className="min-h-screen flex flex-col">
@@ -19,9 +25,22 @@ export default function Home() {
           <Navbar setCurrComp={setCurrComp} currComp={currComp} />
 
           {/*Conditional Rendering*/}
-          {currComp == "/" && <Crypto />}
+          {currComp == "/" && (
+            <Crypto
+              setOpenModel={setOpenModel}
+              coinID={coinID}
+              setCoinID={setCoinID}
+              setHoldingsModel={setHoldingsModel}
+            />
+          )}
           {currComp == "/saved" && <Saved />}
         </main>
+        {/*Model Rendering*/}
+        {openModel ? <CryptoDetails setOpenModel={setOpenModel} /> : null}
+        {holdingsModel ? (
+          <HoldingsDetails setHoldingsModel={setHoldingsModel} />
+        ) : null}
+
         {/*Footer*/}
         <Footer />
       </div>

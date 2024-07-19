@@ -2,12 +2,11 @@
 import TableComponent from "@/components/TableComponent";
 import { useDispatch } from "react-redux";
 import { fetchCoinsMarket } from "@/redux/slice/dataSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Filters from "@/components/Filters";
 
-const Crypto = () => {
+const Crypto = ({ coinID, setCoinID, setOpenModel, setHoldingsModel }) => {
   const dispatch = useDispatch();
-  const [coinID, setCoinID] = useState(null);
 
   // if (state.todo.isLoading) {
   //   return <h1>Loading...</h1>;
@@ -20,7 +19,12 @@ const Crypto = () => {
   return (
     <section className="w-[80%] h-full flex flex-col mt-16 mb-24 relative">
       <Filters setCoinID={setCoinID} coinID={coinID} />
-      <TableComponent coinID={coinID} />
+      <TableComponent
+        setOpenModel={setOpenModel}
+        setCoinID={setCoinID}
+        coinID={coinID}
+        setHoldingsModel={setHoldingsModel}
+      />
     </section>
   );
 };

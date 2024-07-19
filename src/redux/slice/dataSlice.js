@@ -48,9 +48,28 @@ export const fetchCoinSearch = createAsyncThunk(
   }
 );
 
+export const fetchCoinData = createAsyncThunk(
+  "fetchCoinData",
+  async (coinID) => {
+    const url = `https://api.coingecko.com/api/v3/coins/${coinID}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=true&sparkline=true`;
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        "x-cg-demo-api-key": "CG-NiMK8fS31KfuJw3L2tEkXLkM",
+      },
+    };
+    const response = await fetch(url, options);
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
+);
+
 const initialState = {
   coinsMarket: { isLoading: false, data: null, isError: false },
   coinSearch: { isLoading: false, data: null, isError: false },
+  coinData: { isLoading: false, data: null, isError: false },
 };
 
 const dataSlice = createSlice({
@@ -78,6 +97,17 @@ const dataSlice = createSlice({
     });
     builder.addCase(fetchCoinSearch.rejected, (state, action) => {
       state.coinSearch.isError = true;
+    });
+    //Fetch CoinData Actions
+    builder.addCase(fetchCoinData.fulfilled, (state, action) => {
+      state.coinData.isLoading = false;
+      state.coinData.data = action.payload;
+    });
+    builder.addCase(fetchCoinData.pending, (state, action) => {
+      state.coinData.isLoading = true;
+    });
+    builder.addCase(fetchCoinData.rejected, (state, action) => {
+      state.coinData.isError = true;
     });
   },
 });

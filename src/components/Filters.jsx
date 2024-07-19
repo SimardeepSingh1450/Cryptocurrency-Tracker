@@ -51,7 +51,7 @@ const Filters = ({coinID,setCoinID}) => {
           <label htmlFor="currency" className="capitalize relative flex justify-center items-center mr-2 font-bold">currency :</label>
           <input ref={currencyRef} type="text" name="currency" placeholder={`${currentCurrency}`} className="w-16 rounded bg-gray-700 placeholder:text-white pl-2 required outline-0 border border-transparent focus:border-green-500 leading-4"/>
           <button type="submit" className="ml-2 cursor-pointer">
-            <MdCurrencyExchange className="w-full h-auto text-xl text-green-500"/>
+            <MdCurrencyExchange className="text-2xl text-green-500"/>
           </button>
         </form>
       </div>

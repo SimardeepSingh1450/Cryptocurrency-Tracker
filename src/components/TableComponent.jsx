@@ -2,11 +2,23 @@
 import { useSelector } from "react-redux";
 import { IoIosAddCircle } from "react-icons/io";
 import Pagination from "./Pagination";
+import { useDispatch } from "react-redux";
+import { fetchCoinData } from "@/redux/slice/dataSlice";
 
-const TableComponent = ({coinID}) => {
+const TableComponent = ({setCoinID,coinID, setOpenModel,setHoldingsModel}) => {
+    const dispatch = useDispatch();
     let currentCurrency = useSelector((state) => state.currency.currency)
     let cryptoData = useSelector((state) => state.data.coinsMarket.data);
     let dataisLoading = useSelector((state) => state.data.coinsMarket.isLoading);
+
+    const handleOnClick = (val) =>{
+        setOpenModel(true);
+        dispatch(fetchCoinData(val.id));
+    }
+
+    const handleViewHoldings = () => {
+        setHoldingsModel(true);
+    }
 
   return (
     <>
@@ -19,6 +31,7 @@ const TableComponent = ({coinID}) => {
                     <th className="py-1">price</th>
                     <th className="py-1">total volume</th>
                     <th className="py-1">market cap change (24H)</th>
+                    <th className="py-1">public companies holdings</th>
                     <th className="py-1">1H</th>
                     <th className="py-1">24H</th>
                     <th className="py-1">7D</th>
@@ -28,19 +41,20 @@ const TableComponent = ({coinID}) => {
                 {
                 !dataisLoading ? cryptoData.map((item)=>{
                     return (
-                        <tr className="text-center text-base border-b border-gray-700 hover:bg-gray-600 last:border-b-0">
+                        <tr className="text-center text-base border-b border-gray-700 hover:bg-gray-600 last:border-b-0 cursor-pointer">
                     
-                    <td className="py-4 flex flex-row items-center text-center uppercase">
+                    <td onClick={()=>{handleOnClick(item)}} className="py-4 flex flex-row items-center text-center uppercase">
                         <div className="flex flex-row items-center text-center mr-[-3vw]">
                             <button className="outline-0 border-0 bg-none cursor-pointer hover:text-green-500 ml-[1vw]"><IoIosAddCircle className="text-2xl ml-[0.5rem]"/></button>
                             <img className="w-[1.2rem] h-[1.2rem] mx-2" src={item.image} alt={item.name}/>
                             <span>{item.symbol}</span>
                         </div>
                     </td>
-                    <td className="py-4">{item.name}</td>
+                    <td onClick={()=>{handleOnClick(item)}} className="py-4">{item.name}</td>
                     <td className="py-4">{new Intl.NumberFormat("en-IN",{style:"currency",currency:currentCurrency}).format(item.current_price)}</td>
                     <td className="py-4">{item.total_volume}</td>
                     <td className="py-4">{item.market_cap_change_percentage_24h}%</td>
+                    <td onClick={()=>{handleViewHoldings()}} className="py-4"><span className="border-0 rounded p-1 bg-[rgb(34,197,94)] text-black font-bold">View Holdings</span></td>
                     <td className={`py-4 ${item.price_change_percentage_1h_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_1h_in_currency).toFixed(2)}</td>
                     <td className={`py-4 ${item.price_change_percentage_24h_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_24h_in_currency).toFixed(2)}</td>
                     <td className={`py-4 ${item.price_change_percentage_7d_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_7d_in_currency).toFixed(2)}</td>

@@ -13,6 +13,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.className} w-full h-full bg-red`}>
         {children}
+        <div id="model-container"></div>
+        <div id="holdings-model-container"></div>
       </body>
     </html>
   );
