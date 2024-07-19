@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { MdArrowDropDownCircle } from "react-icons/md";
+import Chart from './Chart';
 
 const HighLowIndicator = ({currentPrice,high,low}) => {
     const [green,setGreen] = useState();
@@ -175,8 +176,14 @@ const CryptoDetails = ({setOpenModel}) => {
                 </div>
 
                 </div>
-                <div className='flex flex-col w-[55%] h-full pl-3 bg-green-500'>
-                    right
+                <div className='flex flex-col w-[55%] h-full pl-3'>
+                    <Chart id={coinData.id}/>
+
+                    <div className='flex flex-col mt-4'>
+                        <h3 className='text-white py-1'><span className='font-bold text-gray-200 capitalize mr-1'>Market cap rank: </span>{coinData.market_cap_rank}</h3>
+                        <h3 className='text-white py-1 font-bold'>About {coinData.name} :</h3>
+                        <h3>{coinData.description.en.substring(0,350) + '...'}</h3>
+                    </div>
                 </div>
             </div>
             : null

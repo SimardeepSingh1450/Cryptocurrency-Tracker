@@ -3,6 +3,7 @@ import dataReducer from "./slice/dataSlice";
 import currencyReducer from "./slice/currencySlice";
 import sortByReducer from "./slice/sortBySlice";
 import currPageReducer from "./slice/currPageSlice";
+import chartDaysReducer from "./slice/chartDaysSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     currency: currencyReducer,
     sortBy: sortByReducer,
     currPage: currPageReducer,
+    chartDays: chartDaysReducer,
   },
 });

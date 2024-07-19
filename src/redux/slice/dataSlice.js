@@ -61,6 +61,28 @@ export const fetchCoinData = createAsyncThunk(
     };
     const response = await fetch(url, options);
     const data = await response.json();
+    return data;
+  }
+);
+
+export const fetchChartData = createAsyncThunk(
+  "fetchChartData",
+  async (coinID, { getState }) => {
+    const state = getState();
+    let currency = state.currency.currency;
+    let days = state.chartDays.chartDays;
+    const url = `https://api.coingecko.com/api/v3/coins/${coinID}/market_chart?vs_currency=${
+      currency ? currency : "usd"
+    }&days=${days ? days : "7"}&interval=daily&precision=2`;
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        "x-cg-demo-api-key": "CG-NiMK8fS31KfuJw3L2tEkXLkM",
+      },
+    };
+    const response = await fetch(url, options);
+    const data = await response.json();
     console.log(data);
     return data;
   }
@@ -70,6 +92,7 @@ const initialState = {
   coinsMarket: { isLoading: false, data: null, isError: false },
   coinSearch: { isLoading: false, data: null, isError: false },
   coinData: { isLoading: false, data: null, isError: false },
+  chartData: { isLoading: false, data: null, isError: false },
 };
 
 const dataSlice = createSlice({
@@ -108,6 +131,17 @@ const dataSlice = createSlice({
     });
     builder.addCase(fetchCoinData.rejected, (state, action) => {
       state.coinData.isError = true;
+    });
+    //Fetch ChatData Actions
+    builder.addCase(fetchChartData.fulfilled, (state, action) => {
+      state.chartData.isLoading = false;
+      state.chartData.data = action.payload;
+    });
+    builder.addCase(fetchChartData.pending, (state, action) => {
+      state.chartData.isLoading = true;
+    });
+    builder.addCase(fetchChartData.rejected, (state, action) => {
+      state.chartData.isError = true;
     });
   },
 });
