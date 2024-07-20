@@ -1,20 +1,52 @@
 "use client";
 import Crypto from "@/pages/Crypto";
-import Saved from "@/pages/Saved";
 import Logo from "@/components/Logo";
 import Navbar from "@/components/Navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import Footer from "@/components/Footer";
 import CryptoDetails from "@/components/CryptoDetails";
 import HoldingsDetails from "@/components/HoldingsDetails";
+import MyWatchList from "@/pages/MyWatchList";
 
 export default function Home() {
   const [currComp, setCurrComp] = useState("/");
   const [coinID, setCoinID] = useState(null);
   const [openModel, setOpenModel] = useState(false);
   const [holdingsModel, setHoldingsModel] = useState(false);
+  const [coins, setCoins] = useState([]);
+
+  const saveCoin = (newCoinId) => {
+    let oldCoins = JSON.parse(localStorage.getItem("coins"));
+
+    if (oldCoins.includes(newCoinId)) {
+      return null;
+    } else {
+      let newCoin = [...oldCoins, newCoinId];
+      setCoins(newCoin);
+      localStorage.setItem("coins", JSON.stringify(newCoin));
+    }
+  };
+
+  const removeCoin = (newCoinId) => {
+    let oldCoins = JSON.parse(localStorage.getItem("coins"));
+
+    let newCoin = oldCoins.filter((coin) => coin != newCoinId);
+    setCoins(newCoin);
+    localStorage.setItem("coins", JSON.stringify(newCoin));
+  };
+
+  useEffect(() => {
+    let isThere = JSON.parse(localStorage.getItem("coins")) || false;
+
+    if (!isThere) {
+      localStorage.setItem("coins", JSON.stringify([]));
+    } else {
+      let totalCoins = JSON.parse(localStorage.getItem("coins"));
+      setCoins(totalCoins);
+    }
+  }, []);
 
   return (
     <Provider store={store}>
@@ -31,9 +63,20 @@ export default function Home() {
               coinID={coinID}
               setCoinID={setCoinID}
               setHoldingsModel={setHoldingsModel}
+              saveCoin={saveCoin}
+              removeCoin={removeCoin}
+              coins={coins}
             />
           )}
-          {currComp == "/saved" && <Saved />}
+          {currComp == "/myWatchList" && (
+            <MyWatchList
+              removeCoin={removeCoin}
+              saveCoin={saveCoin}
+              setOpenModel={setOpenModel}
+              coins={coins}
+              setHoldingsModel={setHoldingsModel}
+            />
+          )}
         </main>
         {/*Model Rendering*/}
         {openModel ? <CryptoDetails setOpenModel={setOpenModel} /> : null}

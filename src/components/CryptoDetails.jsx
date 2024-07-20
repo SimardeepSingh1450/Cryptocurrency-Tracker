@@ -43,7 +43,10 @@ const CryptoDetails = ({setOpenModel}) => {
         <div onClick={(e)=>e.stopPropagation()} className='w-[65%] h-[75%] bg-gray-700 bg-opacity-75 rounded-lg text-white relative'>
         
         {
-            coinDataLoading ? <h1>Loading...</h1> : 
+            coinDataLoading ? <div className="w-full h-full flex justify-center items-center">
+            <div className="w-8 h-8 border-4 border-green-500 rounded-full border-b-gray-700 animate-spin"/>
+            <span className="ml-2">Fetching Data...</span>
+            </div> : 
             coinData? 
             <div className='flex items-center justify-between h-full w-full p-4'>
                 <div className='flex flex-col w-[45%] h-full pr-2'>
@@ -182,7 +185,7 @@ const CryptoDetails = ({setOpenModel}) => {
                     <div className='flex flex-col mt-4'>
                         <h3 className='text-white py-1'><span className='font-bold text-gray-200 capitalize mr-1'>Market cap rank: </span>{coinData.market_cap_rank}</h3>
                         <h3 className='text-white py-1 font-bold'>About {coinData.name} :</h3>
-                        <h3>{coinData.description.en.substring(0,350) + '...'}</h3>
+                        <h3>{coinData.description.en.substring(0,250) + '...'}</h3>
                     </div>
                 </div>
             </div>

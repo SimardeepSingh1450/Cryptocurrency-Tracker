@@ -5,7 +5,15 @@ import { fetchCoinsMarket } from "@/redux/slice/dataSlice";
 import { useEffect } from "react";
 import Filters from "@/components/Filters";
 
-const Crypto = ({ coinID, setCoinID, setOpenModel, setHoldingsModel }) => {
+const Crypto = ({
+  coinID,
+  setCoinID,
+  setOpenModel,
+  setHoldingsModel,
+  saveCoin,
+  removeCoin,
+  coins,
+}) => {
   const dispatch = useDispatch();
 
   // if (state.todo.isLoading) {
@@ -24,6 +32,9 @@ const Crypto = ({ coinID, setCoinID, setOpenModel, setHoldingsModel }) => {
         setCoinID={setCoinID}
         coinID={coinID}
         setHoldingsModel={setHoldingsModel}
+        saveCoin={saveCoin}
+        removeCoin={removeCoin}
+        coins={coins}
       />
     </section>
   );

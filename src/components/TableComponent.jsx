@@ -1,11 +1,34 @@
 "use client";
 import { useSelector } from "react-redux";
-import { IoIosAddCircle } from "react-icons/io";
+import { IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
 import Pagination from "./Pagination";
 import { useDispatch } from "react-redux";
 import { fetchCoinData } from "@/redux/slice/dataSlice";
 
-const TableComponent = ({setCoinID,coinID, setOpenModel,setHoldingsModel}) => {
+const SaveBtn = ({data,saveCoin,removeCoin,coins}) => {
+    const handleOnClick = (e) => {
+        e.preventDefault();
+
+        if(coins.includes(data.id)){
+            removeCoin(data.id);
+        }else{
+            saveCoin(data.id);
+        }
+    }
+
+    return (
+    <button onClick={(e)=>handleOnClick(e)} className="outline-0 border-0 bg-none cursor-pointer">
+        {
+            !coins.includes(data.id) ? 
+            <IoIosAddCircle className=" text-green-500 text-2xl ml-[0.5rem]"/>
+            :
+            <IoIosRemoveCircle className="text-red-500 text-2xl ml-[0.5rem]"/>
+        }
+        </button>
+    )
+}
+
+const TableComponent = ({setCoinID, coinID, setOpenModel,setHoldingsModel, saveCoin, removeCoin, coins}) => {
     const dispatch = useDispatch();
     let currentCurrency = useSelector((state) => state.currency.currency)
     let cryptoData = useSelector((state) => state.data.coinsMarket.data);
@@ -43,11 +66,11 @@ const TableComponent = ({setCoinID,coinID, setOpenModel,setHoldingsModel}) => {
                     return (
                         <tr className="text-center text-base border-b border-gray-700 hover:bg-gray-600 last:border-b-0 cursor-pointer">
                     
-                    <td onClick={()=>{handleOnClick(item)}} className="py-4 flex flex-row items-center text-center uppercase">
+                    <td className="py-4 flex flex-row items-center text-center uppercase">
                         <div className="flex flex-row items-center text-center mr-[-3vw]">
-                            <button className="outline-0 border-0 bg-none cursor-pointer hover:text-green-500 ml-[1vw]"><IoIosAddCircle className="text-2xl ml-[0.5rem]"/></button>
+                            <SaveBtn data={item} saveCoin={saveCoin} removeCoin={removeCoin} coins={coins}/>
                             <img className="w-[1.2rem] h-[1.2rem] mx-2" src={item.image} alt={item.name}/>
-                            <span>{item.symbol}</span>
+                            <span onClick={()=>{handleOnClick(item)}}>{item.symbol}</span>
                         </div>
                     </td>
                     <td onClick={()=>{handleOnClick(item)}} className="py-4">{item.name}</td>
