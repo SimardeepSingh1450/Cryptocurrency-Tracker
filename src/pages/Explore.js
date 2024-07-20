@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client";
 import TableComponent from "@/components/TableComponent";
 import { useDispatch } from "react-redux";

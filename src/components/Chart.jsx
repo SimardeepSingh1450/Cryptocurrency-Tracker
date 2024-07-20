@@ -53,7 +53,7 @@ const Chart = ({id}) => {
 
   useEffect(()=>{
     dispatch(fetchChartData(id));
-  },[currentCurrency,type,days])
+  },[currentCurrency,type,days,dispatch,id])
 
   return (
     <div className="w-full h-[60%]">

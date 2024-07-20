@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client";
 import { useSelector } from "react-redux";
 import { IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
@@ -92,24 +93,36 @@ const MyWatchList = ({
             </thead>
             <tbody>
               {!dataisLoading
-                ? watchListCoinsMarket?.map((item) => {
+                ? watchListCoinsMarket?.map((item, index) => {
                     return (
-                      <tr className="text-center text-base border-b border-gray-700 hover:bg-gray-600 last:border-b-0 cursor-pointer">
-                        <td className="py-4 flex flex-row items-center text-center uppercase">
-                          <div className="flex flex-row items-center text-center mr-[-3vw]">
+                      <tr
+                        key={index}
+                        className="text-center text-base border-b border-gray-700 hover:bg-gray-600 last:border-b-0 cursor-pointer"
+                      >
+                        <td
+                          key={index + 1}
+                          className="py-4 flex flex-row items-center text-center uppercase"
+                        >
+                          <div
+                            key={index + 2}
+                            className="flex flex-row items-center text-center mr-[-3vw]"
+                          >
                             <SaveBtn
                               data={item}
                               saveCoin={saveCoin}
                               removeCoin={removeCoin}
                               coins={coins}
                               setCoins={setCoins}
+                              key={index + 3}
                             />
                             <img
                               className="w-[1.2rem] h-[1.2rem] mx-2"
                               src={item.image}
                               alt={item.name}
+                              key={item.image}
                             />
                             <span
+                              key={item.symbol}
                               onClick={() => {
                                 handleOnClick(item);
                               }}
@@ -123,24 +136,35 @@ const MyWatchList = ({
                             handleOnClick(item);
                           }}
                           className="py-4 lg:table-cell hidden"
+                          key={item.name}
                         >
                           {item.name}
                         </td>
-                        <td className="lg:table-cell hidden py-4">
+                        <td
+                          key={item.current_price}
+                          className="lg:table-cell hidden py-4"
+                        >
                           {new Intl.NumberFormat("en-IN", {
                             style: "currency",
                             currency: currentCurrency,
                           }).format(item.current_price)}
                         </td>
-                        <td className="lg:table-cell hidden py-4">
+                        <td
+                          key={item.total_volume}
+                          className="lg:table-cell hidden py-4"
+                        >
                           {item.total_volume}
                         </td>
                         <td className="py-4">
                           {item.market_cap_change_percentage_24h}%
                         </td>
                         {item.id == "ethereum" || item.id == "bitcoin" ? (
-                          <td className="lg:table-cell hidden py-4">
+                          <td
+                            key={item.id + 1}
+                            className="lg:table-cell hidden py-4"
+                          >
                             <span
+                              key={item.id + 2}
                               className="border-0 rounded p-1 bg-[rgb(34,197,94)] text-black font-bold"
                               onClick={() => {
                                 handleViewHoldings(item);
@@ -150,13 +174,17 @@ const MyWatchList = ({
                             </span>
                           </td>
                         ) : (
-                          <td className="lg:table-cell hidden py-4">
+                          <td
+                            key={index + 4}
+                            className="lg:table-cell hidden py-4"
+                          >
                             <span className="border-0 rounded p-1 bg-red-500 text-black font-bold">
                               No data
                             </span>
                           </td>
                         )}
                         <td
+                          key={item.price_change_percentage_1h_in_currency}
                           className={`lg:table-cell hidden py-4 ${
                             item.price_change_percentage_1h_in_currency > 0
                               ? `text-green-400`
@@ -168,6 +196,7 @@ const MyWatchList = ({
                           ).toFixed(2)}
                         </td>
                         <td
+                          key={item.price_change_percentage_24h_in_currency}
                           className={`lg:table-cell hidden py-4 ${
                             item.price_change_percentage_24h_in_currency > 0
                               ? `text-green-400`
@@ -179,6 +208,7 @@ const MyWatchList = ({
                           ).toFixed(2)}
                         </td>
                         <td
+                          key={item.price_change_percentage_7d_in_currency}
                           className={`lg:table-cell hidden py-4 ${
                             item.price_change_percentage_7d_in_currency > 0
                               ? `text-green-400`

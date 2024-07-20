@@ -48,7 +48,7 @@ const HoldingsDetails = ({setHoldingsModel,currCoinData}) => {
                     <th className="py-1">Country</th>
                     <th className="py-1">total {currCoinData.name}</th>
                     <th className="py-1">entry value (USD)</th>
-                    <th className="py-1">today's value (USD)</th>
+                    <th className="py-1">{"today\'s"} value (USD)</th>
                     <th className="py-1">% of total {currCoinData.symbol} supply</th>
                 </tr>
             </thead>
@@ -56,16 +56,16 @@ const HoldingsDetails = ({setHoldingsModel,currCoinData}) => {
                 {
                 !isDataLoading ? currCompanyHoldings?.data?.companies?.map((item,ind)=>{
                     return (
-                        <tr className="text-center text-base border-b border-white hover:bg-gray-800 last:border-b-0 cursor-pointer">
+                        <tr key={ind} className="text-center text-base border-b border-white hover:bg-gray-800 last:border-b-0 cursor-pointer">
 
-                    <td className="py-4">{ind+1}</td>
-                    <td className="py-4">{item.name}</td>
-                    <td className="py-4">{item.symbol} %</td>
-                    <td className="py-4">{item.country}</td>
-                    <td className="py-4">{item.total_holdings}</td>
-                    <td className="py-4">{item.total_entry_value_usd}</td>
-                    <td className="py-4">{item.total_current_value_usd}</td>
-                    <td className="py-4">{item.percentage_of_total_supply}</td>
+                    <td key={ind+1} className="py-4">{ind+1}</td>
+                    <td key={item.name} className="py-4">{item.name}</td>
+                    <td key={item.symbol} className="py-4">{item.symbol} %</td>
+                    <td key={item.country} className="py-4">{item.country}</td>
+                    <td key={item.total_holdings} className="py-4">{item.total_holdings}</td>
+                    <td key={item.total_entry_value_usd} className="py-4">{item.total_entry_value_usd}</td>
+                    <td key={item.total_current_value_usd} className="py-4">{item.total_current_value_usd}</td>
+                    <td key={item.percentage_of_total_supply} className="py-4">{item.percentage_of_total_supply}</td>
                 </tr>
                     )
                 }) : null}

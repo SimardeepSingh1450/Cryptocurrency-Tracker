@@ -45,11 +45,11 @@ const Search = ({setCoinID}) => {
                     <span className="ml-2">Fetching Data...</span>
                     </div>
                     :
-                    coinsData ? coinsData.map((item)=>{
+                    coinsData ? coinsData.map((item,index)=>{
                         return (
-                        <li onClick={()=>{handleListClick(item)}} className="flex items-center ml-4 my-2 cursor-pointer">
-                            <img className="w-[1rem] h-[1rem] mx-2" src={item.thumb} alt={item.name}/>
-                        <span>{item.name}</span>
+                        <li key={index} onClick={()=>{handleListClick(item)}} className="flex items-center ml-4 my-2 cursor-pointer">
+                            <img key={index+1} className="w-[1rem] h-[1rem] mx-2" src={item.thumb} alt={item.name}/>
+                        <span key={item.name}>{item.name}</span>
                         </li>);
                     }) : (<div className="w-full h-full flex justify-center items-center">
                     <span className="ml-2">Search data</span>

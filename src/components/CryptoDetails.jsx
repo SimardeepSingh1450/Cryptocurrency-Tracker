@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { MdArrowDropDownCircle } from "react-icons/md";
 import Chart from './Chart';
+import Image from 'next/image';
 
 const HighLowIndicator = ({currentPrice,high,low}) => {
     const [green,setGreen] = useState();
@@ -51,7 +52,7 @@ const CryptoDetails = ({setOpenModel}) => {
             <div className='flex items-center justify-between h-full w-full p-4'>
                 <div className='flex flex-col w-[45%] h-full pr-2'>
                     <div className='flex w-full items-center'>
-                        <img className='w-[3rem] h-[3rem] mx-1.5' src={coinData.image.large} alt={coinData.id}/>
+                        <Image width={40} height={40} className='mx-1.5' src={coinData.image.large} alt={coinData.id}/>
                         <h1 className='text-xl capitalize font-medium'>{coinData.name}</h1>
                         <span className='text-sm py-0.5 px-2.5 ml-2 bg-green-500 text-green-500 bg-opacity-25 rounded uppercase'>{coinData.symbol}</span>
                     </div>
