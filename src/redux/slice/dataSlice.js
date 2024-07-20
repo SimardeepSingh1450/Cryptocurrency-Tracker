@@ -114,12 +114,33 @@ export const fetchChartData = createAsyncThunk(
   }
 );
 
+export const fetchCompanyHoldings = createAsyncThunk(
+  "fetchCompanyHoldings",
+  async (coinID) => {
+    const url = `https://api.coingecko.com/api/v3/companies/public_treasury/${coinID}`;
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        "x-cg-demo-api-key": "CG-NiMK8fS31KfuJw3L2tEkXLkM",
+      },
+    };
+
+    let res = await fetch(url, options);
+    let data = await res.json();
+    // console.log(data);
+
+    return data;
+  }
+);
+
 const initialState = {
   coinsMarket: { isLoading: false, data: null, isError: false },
   coinSearch: { isLoading: false, data: null, isError: false },
   coinData: { isLoading: false, data: null, isError: false },
   chartData: { isLoading: false, data: null, isError: false },
   watchListCoinsMarket: { isLoading: false, data: null, isError: false },
+  companyHoldings: { isLoading: false, data: null, isError: false },
 };
 
 const dataSlice = createSlice({
@@ -180,6 +201,17 @@ const dataSlice = createSlice({
     });
     builder.addCase(fetchWatchListCoinsMarket.rejected, (state, action) => {
       state.watchListCoinsMarket.isError = true;
+    });
+    //Fetch CompanyHoldings Actions
+    builder.addCase(fetchCompanyHoldings.fulfilled, (state, action) => {
+      state.companyHoldings.isLoading = false;
+      state.companyHoldings.data = action.payload;
+    });
+    builder.addCase(fetchCompanyHoldings.pending, (state, action) => {
+      state.companyHoldings.isLoading = true;
+    });
+    builder.addCase(fetchCompanyHoldings.rejected, (state, action) => {
+      state.companyHoldings.isError = true;
     });
   },
 });

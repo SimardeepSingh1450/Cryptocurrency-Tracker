@@ -28,8 +28,8 @@ const Search = ({setCoinID}) => {
     }
 
   return (
-    <div className="relative">
-    <form onSubmit={handleOnSubmit} className="w-96 relative flex items-center ml-2">
+    <div className="relative xs:w-full lg:w-96">
+    <form onSubmit={handleOnSubmit} className="xs:w-full lg:w-96 relative flex items-center xs:ml-0 lg:ml-2">
         <input value={input} onChange={(e)=>{setInput(e.target.value)}} type="text" name="search" className="w-full rounded bg-gray-600 placeholder:text-white pl-2 py-0.5 required outline-0 border border-transparent focus:border-green-600" placeholder="Search"/>
         <button type="submit" className="absolute right-1 cursor-pointer">
             <FaSearch className="text-xl text-green-500"/>

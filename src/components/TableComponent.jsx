@@ -28,7 +28,7 @@ const SaveBtn = ({data,saveCoin,removeCoin,coins}) => {
     )
 }
 
-const TableComponent = ({setCoinID, coinID, setOpenModel,setHoldingsModel, saveCoin, removeCoin, coins}) => {
+const TableComponent = ({setCoinID, coinID, setOpenModel,setHoldingsModel, saveCoin, removeCoin, coins, currentCoinData,setCurrentCoinData}) => {
     const dispatch = useDispatch();
     let currentCurrency = useSelector((state) => state.currency.currency)
     let cryptoData = useSelector((state) => state.data.coinsMarket.data);
@@ -39,25 +39,26 @@ const TableComponent = ({setCoinID, coinID, setOpenModel,setHoldingsModel, saveC
         dispatch(fetchCoinData(val.id));
     }
 
-    const handleViewHoldings = () => {
+    const handleViewHoldings = (item) => {
         setHoldingsModel(true);
+        setCurrentCoinData(item);
     }
 
   return (
     <>
-    <div className="flex flex-col mt-5 border border-gray-600 rounded">
+    <div className="flex flex-col lg:mt-5 border border-gray-600 rounded xs:mt-20">
         {cryptoData ? <table className="w-full table-auto">
             <thead className="capitalize text-base text-gray-700 font-medium border-b border-gray-700">
                 <tr>
                     <th className="py-1">asset</th>
-                    <th className="py-1">name</th>
-                    <th className="py-1">price</th>
-                    <th className="py-1">total volume</th>
+                    <th className="py-1 lg:table-cell hidden">name</th>
+                    <th className="py-1 lg:table-cell hidden">price</th>
+                    <th className="py-1 lg:table-cell hidden">total volume</th>
                     <th className="py-1">market cap change (24H)</th>
-                    <th className="py-1">public companies holdings</th>
-                    <th className="py-1">1H</th>
-                    <th className="py-1">24H</th>
-                    <th className="py-1">7D</th>
+                    <th className="py-1 lg:table-cell hidden">public companies holdings</th>
+                    <th className="py-1 lg:table-cell hidden">1H</th>
+                    <th className="py-1 lg:table-cell hidden">24H</th>
+                    <th className="py-1 lg:table-cell hidden">7D</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,14 +74,21 @@ const TableComponent = ({setCoinID, coinID, setOpenModel,setHoldingsModel, saveC
                             <span onClick={()=>{handleOnClick(item)}}>{item.symbol}</span>
                         </div>
                     </td>
-                    <td onClick={()=>{handleOnClick(item)}} className="py-4">{item.name}</td>
-                    <td className="py-4">{new Intl.NumberFormat("en-IN",{style:"currency",currency:currentCurrency}).format(item.current_price)}</td>
-                    <td className="py-4">{item.total_volume}</td>
+                    <td onClick={()=>{handleOnClick(item)}} className="py-4 lg:table-cell hidden">{item.name}</td>
+                    <td className="lg:table-cell hidden py-4">{new Intl.NumberFormat("en-IN",{style:"currency",currency:currentCurrency}).format(item.current_price)}</td>
+                    <td className="py-4 lg:table-cell hidden">{item.total_volume}</td>
                     <td className="py-4">{item.market_cap_change_percentage_24h}%</td>
-                    <td onClick={()=>{handleViewHoldings()}} className="py-4"><span className="border-0 rounded p-1 bg-[rgb(34,197,94)] text-black font-bold">View Holdings</span></td>
-                    <td className={`py-4 ${item.price_change_percentage_1h_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_1h_in_currency).toFixed(2)}</td>
-                    <td className={`py-4 ${item.price_change_percentage_24h_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_24h_in_currency).toFixed(2)}</td>
-                    <td className={`py-4 ${item.price_change_percentage_7d_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_7d_in_currency).toFixed(2)}</td>
+
+                    {
+                        item.id == "ethereum" ||item.id == "bitcoin" ?
+                        <td className="py-4 lg:table-cell hidden"><span className="border-0 rounded p-1 bg-[rgb(34,197,94)] text-black font-bold" onClick={()=>{handleViewHoldings(item)}}>View Holdings</span></td>
+                        :
+                        <td className="py-4 lg:table-cell hidden"><span className="border-0 rounded p-1 bg-red-500 text-black font-bold" >No data</span></td>
+                    }
+
+                    <td className={`lg:table-cell hidden py-4 ${item.price_change_percentage_1h_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_1h_in_currency).toFixed(2)}</td>
+                    <td className={`lg:table-cell hidden py-4 ${item.price_change_percentage_24h_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_24h_in_currency).toFixed(2)}</td>
+                    <td className={`py-4 lg:table-cell hidden ${item.price_change_percentage_7d_in_currency > 0 ? `text-green-400` : `text-red-400`}`}>{Number(item.price_change_percentage_7d_in_currency).toFixed(2)}</td>
                 </tr>
                     )
                 }) : null}

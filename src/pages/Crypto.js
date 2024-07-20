@@ -13,6 +13,8 @@ const Crypto = ({
   saveCoin,
   removeCoin,
   coins,
+  currCoinData,
+  setCurrCoinData,
 }) => {
   const dispatch = useDispatch();
 
@@ -35,6 +37,8 @@ const Crypto = ({
         saveCoin={saveCoin}
         removeCoin={removeCoin}
         coins={coins}
+        currentCoinData={currCoinData}
+        setCurrentCoinData={setCurrCoinData}
       />
     </section>
   );

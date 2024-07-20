@@ -16,6 +16,7 @@ export default function Home() {
   const [openModel, setOpenModel] = useState(false);
   const [holdingsModel, setHoldingsModel] = useState(false);
   const [coins, setCoins] = useState([]);
+  const [currCoinData, setCurrCoinData] = useState(null);
 
   const saveCoin = (newCoinId) => {
     let oldCoins = JSON.parse(localStorage.getItem("coins"));
@@ -51,8 +52,8 @@ export default function Home() {
   return (
     <Provider store={store}>
       <div className="min-h-screen flex flex-col">
-        <main className="w-full h-full flex flex-col content-center items-center relative text-white mb-auto">
-          <div className="w-screen h-screen bg-[rgb(16,17,22)] fixed -z-10" />
+        <main className="first-letter:content-center w-full h-full flex flex-col content-center items-center relative text-white mb-auto">
+          <div className="w-screen h-screen bg-[rgb(16,17,22)] fixed -z-10 flex items-center content-center flex-col flex-wrap" />
           <Logo />
           <Navbar setCurrComp={setCurrComp} currComp={currComp} />
 
@@ -66,6 +67,8 @@ export default function Home() {
               saveCoin={saveCoin}
               removeCoin={removeCoin}
               coins={coins}
+              currCoinData={currCoinData}
+              setCurrCoinData={setCurrCoinData}
             />
           )}
           {currComp == "/myWatchList" && (
@@ -76,13 +79,17 @@ export default function Home() {
               coins={coins}
               setHoldingsModel={setHoldingsModel}
               setCoins={setCoins}
+              setCurrCoinData={setCurrCoinData}
             />
           )}
         </main>
         {/*Model Rendering*/}
         {openModel ? <CryptoDetails setOpenModel={setOpenModel} /> : null}
         {holdingsModel ? (
-          <HoldingsDetails setHoldingsModel={setHoldingsModel} />
+          <HoldingsDetails
+            setHoldingsModel={setHoldingsModel}
+            currCoinData={currCoinData}
+          />
         ) : null}
 
         {/*Footer*/}

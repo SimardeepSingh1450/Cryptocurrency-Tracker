@@ -44,9 +44,9 @@ const Filters = ({coinID,setCoinID}) => {
   }
 
   return (
-    <div className="w-full h-12 border-2 border-gray-700 rounded-lg flex items-center justify-between relative">
+    <div className="w-full h-12 border-0 rounded-lg flex items-center justify-between relative xs:flex-wrap">
       <Search setCoinID={setCoinID}/>
-      <div className="flex mr-7">
+      <div className="lg:w-auto xs:w-full xs:my-3 flex mr-7">
         <form onSubmit={handleCurrencySubmit} className="relative flex items-center">
           <label htmlFor="currency" className="capitalize relative flex justify-center items-center mr-2 font-bold">currency :</label>
           <input ref={currencyRef} type="text" name="currency" placeholder={`${currentCurrency}`} className="w-16 rounded bg-gray-700 placeholder:text-white pl-2 required outline-0 border border-transparent focus:border-green-500 leading-4"/>
@@ -66,11 +66,11 @@ const Filters = ({coinID,setCoinID}) => {
             <option value="id_asc">id asc</option>
           </select>
       </label>
-      <div onClick={()=>handleReset()} className="flex items-center justify-center cursor-pointer border border-green-500 rounded pr-4 mr-2 bg-green-500">
-      <IoMdRefreshCircle className="text-2xl mr-2 text-black"/>
-      <button className="w-[2rem] capitalize text-black">
+      <div onClick={()=>handleReset()} className="flex items-center justify-center cursor-pointer border border-green-500 rounded bg-green-500">
+      <IoMdRefreshCircle className="text-2xl text-black"/>
+      {/* <button className="w-[2rem] capitalize text-black">
       reset
-      </button>
+      </button> */}
       </div>
     </div>
   )
