@@ -1,12 +1,12 @@
 "use client";
-import Crypto from "@/pages/Crypto";
+import Explore from "@/pages/Explore";
 import Logo from "@/components/Logo";
 import Navbar from "@/components/Navbar";
 import { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import Footer from "@/components/Footer";
-import CryptoDetails from "@/components/CryptoDetails";
+import ExploreDetails from "@/components/CryptoDetails";
 import HoldingsDetails from "@/components/HoldingsDetails";
 import MyWatchList from "@/pages/MyWatchList";
 
@@ -59,7 +59,7 @@ export default function Home() {
 
           {/*Conditional Rendering*/}
           {currComp == "/" && (
-            <Crypto
+            <Explore
               setOpenModel={setOpenModel}
               coinID={coinID}
               setCoinID={setCoinID}
@@ -84,7 +84,7 @@ export default function Home() {
           )}
         </main>
         {/*Model Rendering*/}
-        {openModel ? <CryptoDetails setOpenModel={setOpenModel} /> : null}
+        {openModel ? <ExploreDetails setOpenModel={setOpenModel} /> : null}
         {holdingsModel ? (
           <HoldingsDetails
             setHoldingsModel={setHoldingsModel}

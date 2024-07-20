@@ -4,6 +4,7 @@ import { IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
 import Pagination from "./Pagination";
 import { useDispatch } from "react-redux";
 import { fetchCoinData } from "@/redux/slice/dataSlice";
+import { useEffect , useState} from "react";
 
 const SaveBtn = ({data,saveCoin,removeCoin,coins}) => {
     const handleOnClick = (e) => {
@@ -35,6 +36,7 @@ const TableComponent = ({setCoinID, coinID, setOpenModel,setHoldingsModel, saveC
     let dataisLoading = useSelector((state) => state.data.coinsMarket.isLoading);
 
     const handleOnClick = (val) =>{
+        if(window.innerWidth < 1050) return null;
         setOpenModel(true);
         dispatch(fetchCoinData(val.id));
     }

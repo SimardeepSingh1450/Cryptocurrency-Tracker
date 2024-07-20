@@ -40,7 +40,7 @@ const CryptoDetails = ({setOpenModel}) => {
   if (!container) return null;
   return ReactDOM.createPortal(
     <div onClick={()=>handleOutClick()} className='fixed top-0 w-full h-full bg-gray-700 bg-opacity-70 backdrop-blur-sm flex items-center justify-center'>
-        <div onClick={(e)=>e.stopPropagation()} className='w-[65%] h-[75%] bg-gray-700 bg-opacity-75 rounded-lg text-white relative'>
+        <div onClick={(e)=>e.stopPropagation()} className='w-[65%] h-[75%] bg-gray-700 bg-opacity-75 rounded-lg text-white relative overflow-y-auto'>
         
         {
             coinDataLoading ? <div className="w-full h-full flex justify-center items-center">

@@ -5,7 +5,7 @@ import { fetchCoinsMarket } from "@/redux/slice/dataSlice";
 import { useEffect } from "react";
 import Filters from "@/components/Filters";
 
-const Crypto = ({
+const Explore = ({
   coinID,
   setCoinID,
   setOpenModel,
@@ -44,4 +44,4 @@ const Crypto = ({
   );
 };
 
-export default Crypto;
+export default Explore;

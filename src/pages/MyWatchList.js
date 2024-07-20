@@ -56,6 +56,7 @@ const MyWatchList = ({
   );
 
   const handleOnClick = (val) => {
+    if (window.innerWidth < 1050) return null;
     setOpenModel(true);
     dispatch(fetchCoinData(val.id));
   };
