@@ -2,9 +2,15 @@
 import { useSelector } from "react-redux";
 import { IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
 import { useDispatch } from "react-redux";
-import { fetchCoinData } from "@/redux/slice/dataSlice";
+import {
+  fetchCoinData,
+  fetchWatchListCoinsMarket,
+} from "@/redux/slice/dataSlice";
+import { useEffect } from "react";
 
-const SaveBtn = ({ data, saveCoin, removeCoin, coins }) => {
+const SaveBtn = ({ data, saveCoin, removeCoin, coins, setCoins }) => {
+  const dispatch = useDispatch();
+
   const handleOnClick = (e) => {
     e.preventDefault();
 
@@ -37,23 +43,16 @@ const MyWatchList = ({
   saveCoin,
   removeCoin,
   coins,
+  setCoins,
 }) => {
   const dispatch = useDispatch();
   let currentCurrency = useSelector((state) => state.currency.currency);
-  let cryptoData = useSelector((state) => state.data.coinsMarket.data);
-  let dataisLoading = useSelector((state) => state.data.coinsMarket.isLoading);
-
-  //filter out the data
-  let newCryptoData = cryptoData
-    .map((item) => {
-      if (coins.includes(item.id)) {
-        return item;
-      } else {
-        return null;
-      }
-    })
-    .filter((item) => item != null);
-  console.log(newCryptoData);
+  let watchListCoinsMarket = useSelector(
+    (state) => state.data.watchListCoinsMarket.data
+  );
+  let dataisLoading = useSelector(
+    (state) => state.data.watchListCoinsMarket.isLoading
+  );
 
   const handleOnClick = (val) => {
     setOpenModel(true);
@@ -64,10 +63,14 @@ const MyWatchList = ({
     setHoldingsModel(true);
   };
 
+  useEffect(() => {
+    dispatch(fetchWatchListCoinsMarket(coins));
+  }, []);
+
   return (
     <section className="w-[80%] h-full flex flex-col mt-16 mb-24 relative">
       <div className="flex flex-col mt-5 border border-gray-600 rounded">
-        {newCryptoData ? (
+        {watchListCoinsMarket ? (
           <table className="w-full table-auto">
             <thead className="capitalize text-base text-gray-700 font-medium border-b border-gray-700">
               <tr>
@@ -84,7 +87,7 @@ const MyWatchList = ({
             </thead>
             <tbody>
               {!dataisLoading
-                ? newCryptoData.map((item) => {
+                ? watchListCoinsMarket?.map((item) => {
                     return (
                       <tr className="text-center text-base border-b border-gray-700 hover:bg-gray-600 last:border-b-0 cursor-pointer">
                         <td className="py-4 flex flex-row items-center text-center uppercase">
@@ -94,6 +97,7 @@ const MyWatchList = ({
                               saveCoin={saveCoin}
                               removeCoin={removeCoin}
                               coins={coins}
+                              setCoins={setCoins}
                             />
                             <img
                               className="w-[1.2rem] h-[1.2rem] mx-2"
@@ -178,7 +182,7 @@ const MyWatchList = ({
           </table>
         ) : (
           <div className="flex items-center justify-center text-center mt-2 mb-2">
-            <h2>Fetching Data...</h2>
+            <h2>No Data</h2>
           </div>
         )}
         {/*LoadingData... */}

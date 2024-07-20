@@ -75,6 +75,7 @@ export default function Home() {
               setOpenModel={setOpenModel}
               coins={coins}
               setHoldingsModel={setHoldingsModel}
+              setCoins={setCoins}
             />
           )}
         </main>

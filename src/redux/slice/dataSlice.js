@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 
 export const fetchCoinsMarket = createAsyncThunk(
   "fetchCoinsMarket",
@@ -29,6 +29,33 @@ export const fetchCoinsMarket = createAsyncThunk(
     }
 
     return response.json();
+  }
+);
+
+export const fetchWatchListCoinsMarket = createAsyncThunk(
+  "fetchWatchListCoinsMarket",
+  async (coins, { getState }) => {
+    if (coins.length == 0) return null;
+
+    const state = getState();
+    const currentCurrency = state.currency.currency;
+    const currentSortBy = state.sortBy.sortBy;
+
+    let coinsString = coins.join("%2C");
+
+    const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currentCurrency}&order=${currentSortBy}&ids=${coinsString}&sparkline=false&price_change_percentage=1h%2C24h%2C7d&locale=en&precision=2`;
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        "x-cg-demo-api-key": "CG-NiMK8fS31KfuJw3L2tEkXLkM",
+      },
+    };
+
+    let res = await fetch(url, options);
+    let data = await res.json();
+    // console.log(data);
+    return data;
   }
 );
 
@@ -83,7 +110,6 @@ export const fetchChartData = createAsyncThunk(
     };
     const response = await fetch(url, options);
     const data = await response.json();
-    console.log(data);
     return data;
   }
 );
@@ -93,6 +119,7 @@ const initialState = {
   coinSearch: { isLoading: false, data: null, isError: false },
   coinData: { isLoading: false, data: null, isError: false },
   chartData: { isLoading: false, data: null, isError: false },
+  watchListCoinsMarket: { isLoading: false, data: null, isError: false },
 };
 
 const dataSlice = createSlice({
@@ -132,7 +159,7 @@ const dataSlice = createSlice({
     builder.addCase(fetchCoinData.rejected, (state, action) => {
       state.coinData.isError = true;
     });
-    //Fetch ChatData Actions
+    //Fetch ChartData Actions
     builder.addCase(fetchChartData.fulfilled, (state, action) => {
       state.chartData.isLoading = false;
       state.chartData.data = action.payload;
@@ -142,6 +169,17 @@ const dataSlice = createSlice({
     });
     builder.addCase(fetchChartData.rejected, (state, action) => {
       state.chartData.isError = true;
+    });
+    //Fetch WatchListCoinsMarket Actions
+    builder.addCase(fetchWatchListCoinsMarket.fulfilled, (state, action) => {
+      state.watchListCoinsMarket.isLoading = false;
+      state.watchListCoinsMarket.data = action.payload;
+    });
+    builder.addCase(fetchWatchListCoinsMarket.pending, (state, action) => {
+      state.watchListCoinsMarket.isLoading = true;
+    });
+    builder.addCase(fetchWatchListCoinsMarket.rejected, (state, action) => {
+      state.watchListCoinsMarket.isError = true;
     });
   },
 });
