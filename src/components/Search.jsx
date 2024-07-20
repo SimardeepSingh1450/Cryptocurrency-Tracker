@@ -37,7 +37,7 @@ const Search = ({setCoinID}) => {
     </form>
     {
         input.length > 0 ? 
-            <ul className="absolute top-11 right-0 w-96 h-96 rounded overflow-x-hidden py-2 bg-grey-600 bg-opacity-60 backdrop-blur-md">
+            <ul className="xs:w-[100%] xs:text-xs absolute top-11 right-0 w-96 h-96 rounded overflow-x-hidden py-2 bg-grey-600 bg-opacity-60 backdrop-blur-md z-20">
                 {
                     coinSearchData.isLoading ? 
                     <div className="w-full h-full flex justify-center items-center">

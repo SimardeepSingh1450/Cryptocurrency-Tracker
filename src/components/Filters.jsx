@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Search from "./Search"
 import { MdCurrencyExchange } from "react-icons/md";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,8 @@ const Filters = ({coinID,setCoinID}) => {
   const currencyRef = useRef(null);
   let currentCurrency = useSelector((state) => state.currency.currency)
   let currentSortVal = useSelector((state) => state.sortBy.sortBy);
+  const [windowWidth, setWindowWidth] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
 
   const handleCurrencySubmit = (e) => {
     e.preventDefault();
@@ -43,6 +45,24 @@ const Filters = ({coinID,setCoinID}) => {
     dispatch(fetchCoinsMarket());
   }
 
+  useEffect(() => {
+    setIsMounted(true);
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    handleResize(); // Set the initial window width
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  if (!isMounted) return null; // Ensure server HTML doesn't mismatch
+
   return (
     <div className="w-full h-12 border-0 rounded-lg flex items-center justify-between relative xs:flex-wrap">
       <Search setCoinID={setCoinID}/>
@@ -66,12 +86,16 @@ const Filters = ({coinID,setCoinID}) => {
             <option value="id_asc">id asc</option>
           </select>
       </label>
-      <div onClick={()=>handleReset()} className="flex items-center justify-center cursor-pointer border border-green-500 rounded bg-green-500">
+
+      {
+        windowWidth > 600 ?
+        <div onClick={()=>handleReset()} className="flex items-center justify-center cursor-pointer border border-green-500 rounded bg-green-500">
       <IoMdRefreshCircle className="text-2xl text-black"/>
-      {/* <button className="w-[2rem] capitalize text-black">
-      reset
-      </button> */}
       </div>
+      :
+      null
+      }
+      
     </div>
   )
 }
