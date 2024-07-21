@@ -54,7 +54,6 @@ export const fetchWatchListCoinsMarket = createAsyncThunk(
 
     let res = await fetch(url, options);
     let data = await res.json();
-    // console.log(data);
     return data;
   }
 );
@@ -128,7 +127,6 @@ export const fetchCompanyHoldings = createAsyncThunk(
 
     let res = await fetch(url, options);
     let data = await res.json();
-    // console.log(data);
 
     return data;
   }
